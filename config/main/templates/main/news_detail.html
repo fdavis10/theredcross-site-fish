@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title_uk }} - Центр допомоги постраждалим</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/news_detail.css' %}">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'main/images/logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
+                <span class="fw-bold text-danger">Центр допомоги</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-4">
+                    <li class="nav-item"><a class="nav-link" href="/#activity">Діяльність</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#join">Приєднуватися</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#news">Новина</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#contacts">Контакт</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#feedback">Зворотний зв'язок</a></li>
+                    <li class="nav-item">
+                        <span class="nav-link fw-bold text-danger">
+                            <i class="fas fa-phone"></i> +7 (800) 123-45-67
+                        </span>
+                    </li>
+                </ul>
+                <button class="btn btn-danger btn-help fw-bold px-4">ДОПОМОГТИ</button>
+            </div>
+        </div>
+    </nav>
+    <!-- News Detail Section -->
+    <section class="news-detail-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <article class="news-detail-article">
+                        <!-- News Header -->
+                        <header class="news-header mb-4">
+                            <div class="news-meta mb-3">
+                                <span class="news-date">
+                                    <i class="fas fa-calendar-alt me-2"></i>
+                                    {{ post.created_at|date:"d E Y" }}
+                                </span>
+                                <span class="news-category ms-3">
+                                    <i class="fas fa-tag me-2"></i>
+                                    Новини
+                                </span>
+                            </div>
+                            <h1 class="news-title">{{ post.title_uk }}</h1>
+                        </header>
+
+                        <!-- News Image -->
+                        {% if post.image %}
+                        <div class="news-image-container mb-4">
+                            <img src="{{ post.image.url }}" alt="{{ post.title_uk }}" class="news-detail-image">
+                        </div>
+                        {% endif %}
+
+                        <!-- News Content -->
+                        <div class="news-content">
+                            <div class="content-text">
+                                {{ post.content_uk|linebreaks }}
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related News Section -->
+    <section class="related-news-section py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Схожі новини</h2>
+            <div class="row">
+                {% for related_post in related_posts %}
+                <div class="col-md-4 mb-4">
+                    <div class="news-card">
+                        {% if related_post.image %}
+                        <img src="{{ related_post.image.url }}" alt="{{ related_post.title_uk }}" class="news-image">
+                        {% endif %}
+                        <div class="news-content">
+                            <h5>{{ related_post.title_uk|truncatewords:8 }}</h5>
+                            <p class="text-muted small">{{ related_post.created_at|date:"d E Y" }}</p>
+                            <p>{{ related_post.content_uk|truncatewords:15 }}</p>
+                            <a href="{% url 'main:news_detail' slug=post.slug %}" class="btn btn-sm btn-outline-danger mt-2">Детальніше</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-brand mb-3">
+                        <img src="{% static 'main/images/logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
+                        <span class="fw-bold">Центр Допомоги</span>
+                    </div>
+                    <p>Ми надаємо допомогу людям, які постраждали від надзвичайних ситуацій, і працюємо над відновленням сімейних зв'язків.</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>О нас</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Історія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Місія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Команда</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Звіт</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Діяльність</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Допомога</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Пошук людей</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Волонтерство</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Програма</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Контакты</h5>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone me-2"></i> +7 (800) 123-45-67</p>
+                        <p><i class="fas fa-envelope me-2"></i> info@help-center.ru</p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> г. Москва, ул. Примерная, д. 123</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2025 Центр Допомоги. Всі права захищені.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-light text-decoration-none me-3">Політика конфіденційності</a>
+                    <a href="#" class="text-light text-decoration-none">Угода користувача</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'main/js/main.js' %}"></script>
+    <script src="{% static 'main/js/news-detail.js' %}"></script>
+</body>
+</html>
