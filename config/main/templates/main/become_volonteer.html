@@ -1,0 +1,516 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стати добровольцем - Центр допомоги постраждалим</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/css/become_volonteer.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/volunteer-modal.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+</head>
+
+
+<div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header bg-danger text-white rounded-top-4">
+        <h5 class="modal-title" id="donationModalLabel">Підтримка нашого центру</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрити"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="donation-form">
+          <div class="mb-3">
+            <label for="name" class="form-label">Ім'я</label>
+            <input type="text" class="form-control" id="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">Сума (₴)</label>
+            <input type="number" class="form-control" id="amount" min="1" required>
+          </div>
+          <div class="mb-3">
+            <label for="cardNumber" class="form-label">Номер картки</label>
+            <input type="text" class="form-control" id="cardNumber" maxlength="19" required>
+          </div>
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label for="exp" class="form-label">Термін дії</label>
+              <input type="text" class="form-control" id="exp" maxlength="5" required>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="cvv" class="form-label">CVV</label>
+              <input type="password" class="form-control" id="cvv" maxlength="4" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger w-100 mt-3">Оплатити</button>
+          <div class="text-center mt-4 payment-icons">
+            <img src="{% static 'main/images/visa.svg' %}" alt="Visa" class="payment-logo">
+            <img src="{% static 'main/images/mastercard.svg' %}" alt="MasterCard" class="payment-logo">
+            <img src="{% static 'main/images/apple-pay.svg' %}" alt="Apple Pay" class="payment-logo">
+            <img src="{% static 'main/images/google-pay.svg' %}" alt="Google Pay" class="payment-logo">
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
+                <span class="fw-bold text-danger">Центр допомоги</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-4">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:activity' %}">Діяльність</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#news">Новина</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#feedback">Зворотний зв'язок</a></li>
+                    <li class="nav-item">
+                        <span class="nav-link fw-bold text-danger">
+                            <i class="fas fa-phone"></i> +7 (800) 123-45-67
+                        </span>
+                    </li>
+                </ul>
+                <button class="btn btn-danger btn-help fw-bold px-4">ДОПОМОГТИ</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section volunteer-hero">
+        <div class="hero-overlay">
+            <div class="container">
+                <div class="row align-items-center min-vh-50">
+                    <div class="col-lg-8 mx-auto text-center text-white">
+                        <h1 class="hero-title mb-4">Стати добровольцем</h1>
+                        <p class="hero-subtitle mb-4">Приєднуйтесь до нашої місії допомоги нужденним людям</p>
+                        <button class="btn btn-light btn-lg px-5" data-bs-toggle="modal" data-bs-target="#volunteerModal">Приєднатися зараз</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <!-- Why we need volunteers -->
+                    <div class="content-block mb-5">
+                        <h2 class="section-title mb-4">Чому нам потрібні добровольці?</h2>
+                        <div class="content-text">
+                            <p>Головна сила Українського Червоного Хреста – це небайдужі люди, які не можуть залишатися байдужими до чужих страждань. Волонтери та добровольці дозволяють нам допомогти величезній кількості людей, чого не вдалося б зробити ніяк інакше.</p>
+                            
+                            <p>Добровольці дотримуються принципів Червоного Хреста, насамперед, гуманність та нейтральність, вони не транслюють інтереси будь-якої політичної чи соціальної групи, не дискримінують людей ні за однією з ознак. Саме тому вони викликають довіру і можуть ефективно допомагати всім нужденним.</p>
+                            
+                            <p><strong>Якщо ви щиро хочете допомагати, приєднуйтесь до нас: разом ми зможемо зробити світ кращим.</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- What volunteers do -->
+                    <div class="content-block">
+                        <h2 class="section-title mb-4">Що роблять добровольці?</h2>
+                        <div class="volunteer-activities">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="activity-card">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-graduation-cap"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <h5>Освітні заходи</h5>
+                                            <p>Беруть участь в організації освітніх заходів у школах та середньо-спеціальних навчальних закладах, проведенні Днів донора та всеукраїнських акцій Червоного Хреста</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <div class="activity-card">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-bolt"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <h5>Швидке реагування</h5>
+                                            <p>Приймають участь у роботі команд швидкого реагування на лиха</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <div class="activity-card">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <h5>Пошук людей</h5>
+                                            <p>Здійснюють пошук зниклих людей у лісах, у тому числі літніх людей та дітей, щорічно рятуючи не одне життя</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <div class="activity-card">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-heart"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <h5>Психологічна підтримка</h5>
+                                            <p>Надають психологічну підтримку тим, хто її потребує</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <div class="activity-card">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-child"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <h5>Допомога дітям</h5>
+                                            <p>Допомагають дітям з особливостями розвитку, дітям з багатодітних сімей, дітям, що залишилися без піклування батьків. Організовують для них свята та майстер-класи, збирають благодійну допомогу</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <div class="activity-card">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-user-friends"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <h5>Допомога літнім людям</h5>
+                                            <p>Допомагають літнім людям з дефіцитом самообслуговування організувати комфортний побут</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section py-5 bg-danger text-white">
+        <div class="container text-center">
+            <h2 class="mb-4">Готові стати частиною нашої команди?</h2>
+            <p class="lead mb-4">Приєднуйтесь до тисяч добровольців, які роблять світ кращим</p>
+            <button class="btn btn-light btn-lg px-5" data-bs-toggle="modal" data-bs-target="#volunteerModal">Стати добровольцем</button>
+        </div>
+    </section>
+
+    <!-- Модальное окно для волонтеров -->
+    <div class="modal fade" id="volunteerModal" tabindex="-1" aria-labelledby="volunteerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 rounded-4">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                    <h5 class="modal-title" id="volunteerModalLabel">
+                        <i class="fas fa-hands-helping me-2"></i>
+                        Заявка на участь у волонтерській діяльності
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрити"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="volunteer-form">
+                        <!-- Личная информация -->
+                        <div class="form-section mb-4">
+                            <h6 class="section-header">
+                                <i class="fas fa-user text-danger me-2"></i>
+                                Особиста інформація
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">Ім'я <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="firstName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">Прізвище <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="lastName" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="birthDate" class="form-label">Дата народження <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="birthDate" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="gender" class="form-label">Стать</label>
+                                    <select class="form-select" id="gender">
+                                        <option value="">Оберіть стать</option>
+                                        <option value="male">Чоловіча</option>
+                                        <option value="female">Жіноча</option>
+                                        <option value="other">Інша</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Контактная информация -->
+                        <div class="form-section mb-4">
+                            <h6 class="section-header">
+                                <i class="fas fa-phone text-danger me-2"></i>
+                                Контактна інформація
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">Телефон <span class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="+380 XX XXX XX XX" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Адреса проживання</label>
+                                <input type="text" class="form-control" id="address" placeholder="Місто, вулиця, будинок">
+                            </div>
+                        </div>
+
+                        <!-- Опыт и интересы -->
+                        <div class="form-section mb-4">
+                            <h6 class="section-header">
+                                <i class="fas fa-star text-danger me-2"></i>
+                                Досвід та інтереси
+                            </h6>
+                            <div class="mb-3">
+                                <label for="experience" class="form-label">Досвід волонтерської діяльності</label>
+                                <select class="form-select" id="experience">
+                                    <option value="">Оберіть ваш досвід</option>
+                                    <option value="none">Немає досвіду</option>
+                                    <option value="little">Менше року</option>
+                                    <option value="medium">1-3 роки</option>
+                                    <option value="experienced">Більше 3 років</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Сфери діяльності, які вас цікавлять <span class="text-danger">*</span></label>
+                                <div class="interests-grid">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="education" name="interests" value="education">
+                                        <label class="form-check-label" for="education">
+                                            <i class="fas fa-graduation-cap me-1"></i> Освітні заходи
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="emergency" name="interests" value="emergency">
+                                        <label class="form-check-label" for="emergency">
+                                            <i class="fas fa-bolt me-1"></i> Швидке реагування
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="search" name="interests" value="search">
+                                        <label class="form-check-label" for="search">
+                                            <i class="fas fa-search me-1"></i> Пошук людей
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="psychology" name="interests" value="psychology">
+                                        <label class="form-check-label" for="psychology">
+                                            <i class="fas fa-heart me-1"></i> Психологічна підтримка
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="children" name="interests" value="children">
+                                        <label class="form-check-label" for="children">
+                                            <i class="fas fa-child me-1"></i> Допомога дітям
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="elderly" name="interests" value="elderly">
+                                        <label class="form-check-label" for="elderly">
+                                            <i class="fas fa-user-friends me-1"></i> Допомога літнім людям
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Доступность -->
+                        <div class="form-section mb-4">
+                            <h6 class="section-header">
+                                <i class="fas fa-clock text-danger me-2"></i>
+                                Доступність
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="availability" class="form-label">Скільки часу ви можете приділяти волонтерству?</label>
+                                    <select class="form-select" id="availability">
+                                        <option value="">Оберіть варіант</option>
+                                        <option value="few-hours">Кілька годин на тиждень</option>
+                                        <option value="one-day">Один день на тиждень</option>
+                                        <option value="few-days">Кілька днів на тиждень</option>
+                                        <option value="weekends">Тільки вихідні</option>
+                                        <option value="flexible">Гнучкий графік</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="transport" class="form-label">Чи маєте власний транспорт?</label>
+                                    <select class="form-select" id="transport">
+                                        <option value="">Оберіть варіант</option>
+                                        <option value="yes">Так</option>
+                                        <option value="no">Ні</option>
+                                        <option value="sometimes">Іноді</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Мотивация -->
+                        <div class="form-section mb-4">
+                            <h6 class="section-header">
+                                <i class="fas fa-lightbulb text-danger me-2"></i>
+                                Мотивація
+                            </h6>
+                            <div class="mb-3">
+                                <label for="motivation" class="form-label">Чому ви хочете стати волонтером? <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="motivation" rows="4" placeholder="Розкажіть про свою мотивацію..." required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="skills" class="form-label">Які навички або знання ви можете запропонувати?</label>
+                                <textarea class="form-control" id="skills" rows="3" placeholder="Наприклад: медичні знання, знання іноземних мов, водійські права, IT навички тощо"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Согласие -->
+                        <div class="form-section mb-4">
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="dataConsent" required>
+                                <label class="form-check-label" for="dataConsent">
+                                    Я даю згоду на обробку моїх персональних даних <span class="text-danger">*</span>
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="rulesConsent" required>
+                                <label class="form-check-label" for="rulesConsent">
+                                    Я ознайомлений з принципами Червоного Хреста та зобов'язуюсь їх дотримуватися <span class="text-danger">*</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger btn-lg px-5">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                Подати заявку
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно оплаты (оригинальное) -->
+    <div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                    <h5 class="modal-title" id="donationModalLabel">Підтримка нашого центру</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрити"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="donation-form">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Ім'я</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Сума (₴)</label>
+                            <input type="number" class="form-control" id="amount" min="1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cardNumber" class="form-label">Номер картки</label>
+                            <input type="text" class="form-control" id="cardNumber" maxlength="19" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="exp" class="form-label">Термін дії</label>
+                                <input type="text" class="form-control" id="exp" maxlength="5" required>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="cvv" class="form-label">CVV</label>
+                                <input type="password" class="form-control" id="cvv" maxlength="4" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100 mt-3">Оплатити</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-brand mb-3">
+                        <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
+                        <span class="fw-bold">Центр Допомоги</span>
+                    </div>
+                    <p>Ми надаємо допомогу людям, які постраждали від надзвичайних ситуацій, і працюємо над відновленням сімейних зв'язків.</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>О нас</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Історія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Місія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Команда</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Звіт</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Деятельность</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Допомога</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Пошук людей</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Волонтерство</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Програма</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Контакты</h5>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone me-2"></i> +7 (800) 123-45-67</p>
+                        <p><i class="fas fa-envelope me-2"></i> info@help-center.ru</p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> г. Москва, ул. Примерная, д. 123</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2025 Центр Допомоги. Всі права захищені.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-light text-decoration-none me-3">Політика конфіденційності</a>
+                    <a href="#" class="text-light text-decoration-none">Угода користувача</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'main/js/main.js' %}"></script>
+    <script src="{% static 'main/js/volonteer-form.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,422 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стать партнером - Центр допомоги постраждалим</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/become_partner.css' %}">
+</head>
+
+
+<!-- Модальное окно оплаты -->
+<div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header bg-danger text-white rounded-top-4">
+        <h5 class="modal-title" id="donationModalLabel">Підтримка нашого центру</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрити"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="donation-form">
+          <div class="mb-3">
+            <label for="name" class="form-label">Ім'я</label>
+            <input type="text" class="form-control" id="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">Сума (₴)</label>
+            <input type="number" class="form-control" id="amount" min="1" required>
+          </div>
+          <div class="mb-3">
+            <label for="cardNumber" class="form-label">Номер картки</label>
+            <input type="text" class="form-control" id="cardNumber" maxlength="19" required>
+          </div>
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label for="exp" class="form-label">Термін дії</label>
+              <input type="text" class="form-control" id="exp" maxlength="5" required>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="cvv" class="form-label">CVV</label>
+              <input type="password" class="form-control" id="cvv" maxlength="4" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger w-100 mt-3">Оплатити</button>
+          <div class="text-center mt-4 payment-icons">
+            <img src="{% static 'main/images/visa.svg' %}" alt="Visa" class="payment-logo">
+            <img src="{% static 'main/images/mastercard.svg' %}" alt="MasterCard" class="payment-logo">
+            <img src="{% static 'main/images/apple-pay.svg' %}" alt="Apple Pay" class="payment-logo">
+            <img src="{% static 'main/images/google-pay.svg' %}" alt="Google Pay" class="payment-logo">
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
+                <span class="fw-bold text-danger">Центр допомоги</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-4">
+                    <li class="nav-item"><a class="nav-link" href="#activity">Діяльність</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#news">Новина</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#feedback">Зворотний зв'язок</a></li>
+                    <li class="nav-item">
+                        <span class="nav-link fw-bold text-danger">
+                            <i class="fas fa-phone"></i> +7 (800) 123-45-67
+                        </span>
+                    </li>
+                </ul>
+                <button class="btn btn-danger btn-help fw-bold px-4">ДОПОМОГТИ</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 text-center">
+                            <h1 class="hero-title">Стати нашим партнером</h1>
+                            <p class="hero-subtitle">Приєднуйтесь до нашої місії допомоги нужденним та створюйте позитивний вплив разом з нами</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partnership Benefits Section -->
+    <section class="benefits-section py-5 bg-light">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="section-title">Переваги партнерства</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h5>Соціальна відповідальність</h5>
+                        <p>Покажіть свою приверженість соціальним цінностям та допомозі спільноті</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5>Розвиток бізнесу</h5>
+                        <p>Отримайте нові можливості для розвитку та покращення репутації вашої компанії</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5>Мережа контактів</h5>
+                        <p>Долучіться до спільноти однодумців та розширте свою професійну мережу</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partnership Form Section -->
+    <section class="form-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="form-container">
+                        <div class="form-header text-center mb-4">
+                            <h2 class="form-title">Заявка на партнерство</h2>
+                            <p class="form-subtitle">Заповніть форму і наш менеджер зв'яжеться з вами найближчим часом</p>
+                        </div>
+                        
+                        <form id="partnershipForm" class="partnership-form">
+                            <div class="form-step active" id="step1">
+                                <h4 class="step-title">Контактна інформація</h4>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">Ім'я *</label>
+                                        <input type="text" class="form-control" id="firstName" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">Прізвище *</label>
+                                        <input type="text" class="form-control" id="lastName" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Email *</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label">Телефон *</label>
+                                        <input type="tel" class="form-control" id="phone" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="position" class="form-label">Посада</label>
+                                    <input type="text" class="form-control" id="position">
+                                </div>
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-danger btn-next">Далі <i class="fas fa-arrow-right ms-2"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="form-step" id="step2">
+                                <h4 class="step-title">Інформація про компанію</h4>
+                                <div class="mb-3">
+                                    <label for="companyName" class="form-label">Назва компанії *</label>
+                                    <input type="text" class="form-control" id="companyName" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="industry" class="form-label">Сфера діяльності *</label>
+                                        <select class="form-select" id="industry" required>
+                                            <option value="">Оберіть сферу</option>
+                                            <option value="retail">Роздрібна торгівля</option>
+                                            <option value="manufacturing">Виробництво</option>
+                                            <option value="services">Послуги</option>
+                                            <option value="technology">Технології</option>
+                                            <option value="finance">Фінанси</option>
+                                            <option value="healthcare">Охорона здоров'я</option>
+                                            <option value="education">Освіта</option>
+                                            <option value="other">Інше</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="companySize" class="form-label">Розмір компанії</label>
+                                        <select class="form-select" id="companySize">
+                                            <option value="">Оберіть розмір</option>
+                                            <option value="small">1-50 співробітників</option>
+                                            <option value="medium">51-200 співробітників</option>
+                                            <option value="large">201-1000 співробітників</option>
+                                            <option value="enterprise">Більше 1000 співробітників</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="website" class="form-label">Веб-сайт компанії</label>
+                                    <input type="url" class="form-control" id="website" placeholder="https://example.com">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="companyDescription" class="form-label">Опис компанії</label>
+                                    <textarea class="form-control" id="companyDescription" rows="3" placeholder="Розкажіть коротко про вашу компанію"></textarea>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-secondary btn-prev"><i class="fas fa-arrow-left me-2"></i>Назад</button>
+                                    <button type="button" class="btn btn-danger btn-next">Далі <i class="fas fa-arrow-right ms-2"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="form-step" id="step3">
+                                <h4 class="step-title">Деталі партнерства</h4>
+                                <div class="mb-3">
+                                    <label for="partnershipType" class="form-label">Тип партнерства *</label>
+                                    <select class="form-select" id="partnershipType" required>
+                                        <option value="">Оберіть тип</option>
+                                        <option value="financial">Фінансова підтримка</option>
+                                        <option value="volunteer">Волонтерські програми</option>
+                                        <option value="services">Надання послуг</option>
+                                        <option value="resources">Матеріальні ресурси</option>
+                                        <option value="expertise">Експертна підтримка</option>
+                                        <option value="marketing">Маркетингова підтримка</option>
+                                        <option value="other">Інше</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="budget" class="form-label">Орієнтовний бюджет (якщо застосовується)</label>
+                                    <select class="form-select" id="budget">
+                                        <option value="">Оберіть діапазон</option>
+                                        <option value="small">До 50,000 ₴</option>
+                                        <option value="medium">50,000 - 200,000 ₴</option>
+                                        <option value="large">200,000 - 500,000 ₴</option>
+                                        <option value="enterprise">Більше 500,000 ₴</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="timeline" class="form-label">Бажані терміни співпраці</label>
+                                    <select class="form-select" id="timeline">
+                                        <option value="">Оберіть термін</option>
+                                        <option value="short">Разова акція</option>
+                                        <option value="medium">3-6 місяців</option>
+                                        <option value="long">6-12 місяців</option>
+                                        <option value="ongoing">Постійна співпраця</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="interests" class="form-label">Програми, які вас цікавлять</label>
+                                    <div class="interests-grid">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="emergency" id="emergency">
+                                            <label class="form-check-label" for="emergency">
+                                                Надзвичайні ситуації
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="family" id="family">
+                                            <label class="form-check-label" for="family">
+                                                Відновлення сімейних зв'язків
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="volunteer" id="volunteer">
+                                            <label class="form-check-label" for="volunteer">
+                                                Волонтерські програми
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="humanitarian" id="humanitarian">
+                                            <label class="form-check-label" for="humanitarian">
+                                                Гуманітарна допомога
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="education" id="education">
+                                            <label class="form-check-label" for="education">
+                                                Освітні програми
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="healthcare" id="healthcare">
+                                            <label class="form-check-label" for="healthcare">
+                                                Медична допомога
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Додаткова інформація</label>
+                                    <textarea class="form-control" id="message" rows="4" placeholder="Розкажіть більше про ваші ідеї співпраці та очікування"></textarea>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-secondary btn-prev"><i class="fas fa-arrow-left me-2"></i>Назад</button>
+                                    <button type="submit" class="btn btn-danger btn-submit">
+                                        <span class="spinner-border spinner-border-sm d-none me-2" role="status"></span>
+                                        Відправити заявку
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Progress Bar -->
+                        <div class="progress-container mt-4">
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 33.33%"></div>
+                            </div>
+                            <div class="progress-steps">
+                                <div class="step-indicator active">1</div>
+                                <div class="step-indicator">2</div>
+                                <div class="step-indicator">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-5">
+                    <div class="success-icon mb-3">
+                        <i class="fas fa-check-circle text-success"></i>
+                    </div>
+                    <h4 class="mb-3">Дякуємо за заявку!</h4>
+                    <p class="mb-4">Ваша заявка на партнерство успішно відправлена. Наш менеджер зв'яжеться з вами протягом 2 робочих днів.</p>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Зрозуміло</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+<!-- Footer -->
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-brand mb-3">
+                        <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
+                        <span class="fw-bold">Центр Допомоги</span>
+                    </div>
+                    <p>Ми надаємо допомогу людям, які постраждали від надзвичайних ситуацій, і працюємо над відновленням сімейних зв'язків.</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>О нас</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Історія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Місія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Команда</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Звіт</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Деятельность</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Допомога</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Пошук людей</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Волонтерство</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Програма</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Контакты</h5>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone me-2"></i> +7 (800) 123-45-67</p>
+                        <p><i class="fas fa-envelope me-2"></i> info@help-center.ru</p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> г. Москва, ул. Примерная, д. 123</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2025 Центр Допомоги. Всі права захищені.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-light text-decoration-none me-3">Політика конфіденційності</a>
+                    <a href="#" class="text-light text-decoration-none">Угода користувача</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'main/js/main.js' %}"></script>
+    <script src="{% static 'main/js/become_partner.js' %}"></script>
+</body>
+</html>

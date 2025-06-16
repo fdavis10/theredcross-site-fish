@@ -11,6 +11,52 @@
     <link rel="stylesheet" href="{% static 'main/css/news_detail.css' %}">
 </head>
 
+<!-- Модальное окно оплаты -->
+<div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header bg-danger text-white rounded-top-4">
+        <h5 class="modal-title" id="donationModalLabel">Підтримка нашого центру</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрити"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="donation-form">
+          <div class="mb-3">
+            <label for="name" class="form-label">Ім'я</label>
+            <input type="text" class="form-control" id="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">Сума (₴)</label>
+            <input type="number" class="form-control" id="amount" min="1" required>
+          </div>
+          <div class="mb-3">
+            <label for="cardNumber" class="form-label">Номер картки</label>
+            <input type="text" class="form-control" id="cardNumber" maxlength="19" required>
+          </div>
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label for="exp" class="form-label">Термін дії</label>
+              <input type="text" class="form-control" id="exp" maxlength="5" required>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="cvv" class="form-label">CVV</label>
+              <input type="password" class="form-control" id="cvv" maxlength="4" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger w-100 mt-3">Оплатити</button>
+          <div class="text-center mt-4 payment-icons">
+            <img src="{% static 'main/images/visa.svg' %}" alt="Visa" class="payment-logo">
+            <img src="{% static 'main/images/mastercard.svg' %}" alt="MasterCard" class="payment-logo">
+            <img src="{% static 'main/images/apple-pay.svg' %}" alt="Apple Pay" class="payment-logo">
+            <img src="{% static 'main/images/google-pay.svg' %}" alt="Google Pay" class="payment-logo">
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
@@ -27,9 +73,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto me-4">
                     <li class="nav-item"><a class="nav-link" href="/#activity">Діяльність</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/#join">Приєднуватися</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
                     <li class="nav-item"><a class="nav-link" href="/#news">Новина</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/#contacts">Контакт</a></li>
                     <li class="nav-item"><a class="nav-link" href="/#feedback">Зворотний зв'язок</a></li>
                     <li class="nav-item">
                         <span class="nav-link fw-bold text-danger">
@@ -98,7 +143,7 @@
                             <h5>{{ related_post.title_uk|truncatewords:8 }}</h5>
                             <p class="text-muted small">{{ related_post.created_at|date:"d E Y" }}</p>
                             <p>{{ related_post.content_uk|truncatewords:15 }}</p>
-                            <a href="{% url 'main:news_detail' slug=post.slug %}" class="btn btn-sm btn-outline-danger mt-2">Детальніше</a>
+                            <a href="{% url 'main:news_detail' slug=related_post.slug %}" class="btn btn-sm btn-outline-danger mt-2">Детальніше</a>
                         </div>
                     </div>
                 </div>

@@ -506,3 +506,74 @@ body {
     transform: scale(1.1);
     opacity: 1;
 }
+
+
+/* Дополнительные стили для модального окна помощи */
+#helpModal .modal-content {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: none;
+}
+
+#helpModal .modal-header {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    border-bottom: none;
+}
+
+#helpModal .modal-body {
+    background: #f8f9fa;
+}
+
+#helpModal .form-control {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#helpModal .form-control:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+#helpModal .form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+#helpModal .btn-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+#helpModal .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
+/* Анимация появления модального окна */
+#helpModal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translate(0, -50px);
+}
+
+#helpModal.show .modal-dialog {
+    transform: none;
+}
+
+/* Стили для мобильных устройств */
+@media (max-width: 576px) {
+    #helpModal .modal-dialog {
+        margin: 1rem;   
+    }
+    
+    #helpModal .modal-body {
+        padding: 1.5rem;
+    }
+}

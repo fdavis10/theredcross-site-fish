@@ -364,3 +364,88 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+
+// Добавьте этот код в конец вашего main.js файла
+
+// Обработчик для кнопки "Получить помощь" в action cards
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим все action cards
+    const actionCards = document.querySelectorAll('.action-card');
+    
+    // Находим карточку "Получить помощь" (последняя карточка)
+    if (actionCards.length >= 4) {
+        const helpCard = actionCards[3]; // Четвертая карточка (индекс 3)
+        const helpButton = helpCard.querySelector('.btn-outline-danger');
+        
+        if (helpButton) {
+            helpButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Открываем модальное окно помощи
+                const helpModal = document.getElementById('helpModal');
+                if (helpModal) {
+                    const modal = new bootstrap.Modal(helpModal);
+                    modal.show();
+                }
+            });
+        }
+    }
+    
+    // Обработчик отправки формы помощи
+    const helpForm = document.getElementById('help-form');
+    if (helpForm) {
+        helpForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Получаем данные формы
+            const name = document.getElementById('help-name').value.trim();
+            const phone = document.getElementById('help-phone').value.trim();
+            const message = document.getElementById('help-message').value.trim();
+            
+            // Валидация
+            if (!name) {
+                alert('Будь ласка, введіть ваше ім\'я');
+                return;
+            }
+            
+            if (!phone) {
+                alert('Будь ласка, введіть номер телефону');
+                return;
+            }
+            
+            if (!validatePhone(phone)) {
+                alert('Будь ласка, введіть коректний номер телефону');
+                return;
+            }
+            
+            if (!message) {
+                alert('Будь ласка, опишіть, чим ми можемо допомогти');
+                return;
+            }
+            
+            // Создаем объект с данными
+            const formData = {
+                name: name,
+                phone: phone,
+                message: message,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Здесь можно добавить отправку на ваш Django сервер
+            console.log('Заявка на помощь:', formData);
+            
+            // Показываем сообщение об успехе
+            alert('Дякуємо! Ваша заявка прийнята. Ми зв\'яжемося з вами найближчим часом.');
+            
+            // Закрываем модальное окно
+            const helpModalInstance = bootstrap.Modal.getInstance(document.getElementById('helpModal'));
+            if (helpModalInstance) {
+                helpModalInstance.hide();
+            }
+            
+            // Очищаем форму
+            helpForm.reset();
+        });
+    }
+});

@@ -6,6 +6,14 @@ def index(request):
     posts = Post.objects.filter(is_published=True)[:3]
     return render(request, 'main/index.html', {'posts': posts})
 
+def become_partner(request):
+    return render(request, 'main/become_partner.html')
+
+def become_volonteer(request):
+    return render(request, 'main/become_volonteer.html')
+
+def activity(request):
+    return render(request, 'main/activity.html')
 
 def news_detail(request, slug):
     post = get_object_or_404(Post, slug=slug, is_published=True)

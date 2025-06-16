@@ -7,8 +7,39 @@
     <title>Центр допомоги постраждалим</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="static\main\css\main.css">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
 </head>
+
+
+<!-- Модалка "Отримати допомогу" -->
+<div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header bg-danger text-white rounded-top-4">
+        <h5 class="modal-title" id="helpModalLabel">Отримати допомогу</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрити"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="help-form">
+          <div class="mb-3">
+            <label for="help-name" class="form-label">Ім’я</label>
+            <input type="text" class="form-control" id="help-name" required>
+          </div>
+          <div class="mb-3">
+            <label for="help-phone" class="form-label">Номер телефону</label>
+            <input type="tel" class="form-control" id="help-phone" required>
+          </div>
+          <div class="mb-3">
+            <label for="help-message" class="form-label">Чим ми можемо допомогти?</label>
+            <textarea class="form-control" id="help-message" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-danger w-100 mt-3">Надіслати</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Модальное окно оплаты -->
 <div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
@@ -60,8 +91,8 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="static\main\images\logo_red_cross.png" alt="Логотип" width="40" height="40" class="me-2">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
                 <span class="fw-bold text-danger">Центр допомоги</span>
             </a>
             
@@ -71,10 +102,9 @@
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto me-4">
-                    <li class="nav-item"><a class="nav-link" href="#activity">Діяльність</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#join">Приєднуватися</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:activity' %}">Діяльність</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
                     <li class="nav-item"><a class="nav-link" href="#news">Новина</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contacts">Контакт</a></li>
                     <li class="nav-item"><a class="nav-link" href="#feedback">Зворотний зв'язок</a></li>
                     <li class="nav-item">
                         <span class="nav-link fw-bold text-danger">
@@ -162,7 +192,7 @@
                         </div>
                         <h5>Стати партнером</h5>
                         <p>Приєднуйтесь до нашої місії допомоги нужденним</p>
-                        <a href="#" class="btn btn-outline-danger">Докладно</a>
+                        <a href="{% url 'main:become_partner' %}" class="btn btn-outline-danger">Докладно</a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
@@ -182,7 +212,7 @@
                         </div>
                         <h5>Стати волонтером</h5>
                         <p>Допомагайте людям своїми руками і серцем</p>
-                        <a href="#" class="btn btn-outline-danger">Стати волонтером</a>
+                        <a href="{% url 'main:become_volonteer' %}" class="btn btn-outline-danger">Стати волонтером</a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
@@ -227,7 +257,7 @@
                 <div class="banner-content text-center text-white">
                     <h2>Кожен може допомогти</h2>
                     <p>Приєднуйтесь до нашого руху допомоги нужденним</p>
-                    <button class="btn btn-light btn-lg">Приєднуватися</button>
+                    <a href="{% url 'main:become_volonteer' %}" class="text-white me-3"><button class="btn btn-light btn-lg">Приєднуватися</button></a>
                 </div>
             </div>
         </div>
@@ -268,7 +298,7 @@
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <div class="footer-brand mb-3">
-                        <img src="static\main\images\logo_red_cross.png" alt="Логотип" width="40" height="40" class="me-2">
+                        <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
                         <span class="fw-bold">Центр Допомоги</span>
                     </div>
                     <p>Ми надаємо допомогу людям, які постраждали від надзвичайних ситуацій, і працюємо над відновленням сімейних зв'язків.</p>
@@ -320,6 +350,6 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="static\main\js\main.js"></script>
+    <script src="{% static 'main/js/main.js' %}"></script>
 </body>
 </html>

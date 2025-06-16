@@ -1,0 +1,325 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Діяльність - Центр допомоги постраждалим</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/activity.css' %}">
+</head>
+
+<!-- Модальное окно оплаты -->
+<div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header bg-danger text-white rounded-top-4">
+        <h5 class="modal-title" id="donationModalLabel">Підтримка нашого центру</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрити"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="donation-form">
+          <div class="mb-3">
+            <label for="name" class="form-label">Ім'я</label>
+            <input type="text" class="form-control" id="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">Сума (₴)</label>
+            <input type="number" class="form-control" id="amount" min="1" required>
+          </div>
+          <div class="mb-3">
+            <label for="cardNumber" class="form-label">Номер картки</label>
+            <input type="text" class="form-control" id="cardNumber" maxlength="19" required>
+          </div>
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label for="exp" class="form-label">Термін дії</label>
+              <input type="text" class="form-control" id="exp" maxlength="5" required>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="cvv" class="form-label">CVV</label>
+              <input type="password" class="form-control" id="cvv" maxlength="4" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger w-100 mt-3">Оплатити</button>
+          <div class="text-center mt-4 payment-icons">
+            <img src="{% static 'main/images/visa.svg' %}" alt="Visa" class="payment-logo">
+            <img src="{% static 'main/images/mastercard.svg' %}" alt="MasterCard" class="payment-logo">
+            <img src="{% static 'main/images/apple-pay.svg' %}" alt="Apple Pay" class="payment-logo">
+            <img src="{% static 'main/images/google-pay.svg' %}" alt="Google Pay" class="payment-logo">
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
+                <span class="fw-bold text-danger">Центр допомоги</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-4">
+                    <li class="nav-item"><a class="nav-link" href="#activity">Діяльність</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#news">Новина</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#feedback">Зворотний зв'язок</a></li>
+                    <li class="nav-item">
+                        <span class="nav-link fw-bold text-danger">
+                            <i class="fas fa-phone"></i> +7 (800) 123-45-67
+                        </span>
+                    </li>
+                </ul>
+                <button class="btn btn-danger btn-help fw-bold px-4">ДОПОМОГТИ</button>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Header -->
+    <section class="page-header-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="page-title">Наша діяльність</h1>
+                    <p class="page-subtitle">Ми надаємо комплексну допомогу людям, які опинилися в складних життєвих обставинах</p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="page-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">15,000+</div>
+                            <div class="stat-label">Людей отримали допомогу</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Програм підтримки</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Activities Section -->
+    <section class="activities-section py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Основні напрямки діяльності</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="activity-card">
+                        <div class="activity-image">
+                            <img src="https://www.reuters.com/resizer/v2/R432YTN6FRMVHP5PRGZQ7HOOII.jpg?auth=5192e79d2133ea49f09f4ccca511543cac87d6e8d464801890c885f339357c96&width=800&quality=80" alt="Гуманітарна допомога">
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-icon">
+                                <i class="fas fa-hands-helping"></i>
+                            </div>
+                            <h4>Гуманітарна допомога</h4>
+                            <p>Надання продуктів харчування, одягу, медикаментів та інших необхідних речей людям, які опинилися в складних обставинах.</p>
+                            <ul class="activity-list">
+                                <li>Продуктові набори для сімей</li>
+                                <li>Одяг та взуття</li>
+                                <li>Медичні препарати</li>
+                                <li>Засоби гігієни</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mb-4">
+                    <div class="activity-card">
+                        <div class="activity-image">
+                            <img src="https://www.reuters.com/resizer/v2/ASQBJOTPPVMRXIAJRSCVMQQTCM.jpg?auth=1e804be9c09cbded78fef7e916efa77869e74a373dbee4d669931c9efb52d374&width=800&quality=80" alt="Пошук людей">
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h4>Відновлення сімейних зв'язків</h4>
+                            <p>Допомога у пошуку зниклих родичів та відновленні контактів між членами сімей, розділених внаслідок конфліктів.</p>
+                            <ul class="activity-list">
+                                <li>Пошук зниклих осіб</li>
+                                <li>Відновлення документів</li>
+                                <li>Психологічна підтримка</li>
+                                <li>Юридична допомога</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="activity-card">
+                        <div class="activity-image">
+                            <img src="https://www.reuters.com/resizer/v2/HPUIZZW345NRRAQ6UJC2TZVEPI.jpg?auth=b3d302bda99cd8e1c4f3f89525c50c6f03ebad3791b698ea85bcb9a63600c87f&width=800&quality=80" alt="Медична допомога">
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h4>Медична допомога</h4>
+                            <p>Надання медичних послуг, організація лікування та реабілітації постраждалих від надзвичайних ситуацій.</p>
+                            <ul class="activity-list">
+                                <li>Первинна медична допомога</li>
+                                <li>Психологічна реабілітація</li>
+                                <li>Фізіотерапія</li>
+                                <li>Консультації спеціалістів</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="activity-card">
+                        <div class="activity-image">
+                            <img src="https://www.reuters.com/resizer/v2/NUBANTYTCBJ6XKYD5QVF63VXMQ.jpg?auth=d4ed63acd415eb2d61319b3715bf65c723bbff00934763f855a47edd378f8e02&width=800&quality=80" alt="Освітні програми">
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h4>Освітні програми</h4>
+                            <p>Організація навчальних курсів, тренінгів та освітніх програм для різних категорій населення.</p>
+                            <ul class="activity-list">
+                                <li>Курси першої допомоги</li>
+                                <li>Тренінги з безпеки</li>
+                                <li>Освітні програми для дітей</li>
+                                <li>Професійна підготовка</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="programs-section py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Спеціальні програми</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h5>Підтримка дітей</h5>
+                        <p>Спеціальні програми для дітей, які постраждали від конфліктів та надзвичайних ситуацій.</p>
+                        <div class="program-stats">
+                            <span class="stat">2,500+ дітей</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h5>Тимчасове житло</h5>
+                        <p>Надання тимчасового житла для переселенців та людей, які втратили домівки.</p>
+                        <div class="program-stats">
+                            <span class="stat">800+ сімей</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h5>Працевлаштування</h5>
+                        <p>Допомога у пошуку роботи та професійній адаптації для переселенців.</p>
+                        <div class="program-stats">
+                            <span class="stat">1,200+ осіб</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Call to Action -->
+    <section class="cta-section py-5 bg-danger text-white">
+        <div class="container text-center">
+            <h2 class="mb-4">Приєднуйтесь до нашої місії</h2>
+            <p class="lead mb-4">Разом ми можемо допомогти більшій кількості людей</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-light btn-lg me-3">Стати волонтером</a>
+                <a href="#" class="btn btn-outline-light btn-lg">Зробити пожертву</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-brand mb-3">
+                        <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
+                        <span class="fw-bold">Центр Допомоги</span>
+                    </div>
+                    <p>Ми надаємо допомогу людям, які постраждали від надзвичайних ситуацій, і працюємо над відновленням сімейних зв'язків.</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>О нас</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Історія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Місія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Команда</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Звіт</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Деятельность</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Допомога</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Пошук людей</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Волонтерство</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Програма</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Контакты</h5>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone me-2"></i> +7 (800) 123-45-67</p>
+                        <p><i class="fas fa-envelope me-2"></i> info@help-center.ru</p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> г. Москва, ул. Примерная, д. 123</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2025 Центр Допомоги. Всі права захищені.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-light text-decoration-none me-3">Політика конфіденційності</a>
+                    <a href="#" class="text-light text-decoration-none">Угода користувача</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'main/js/main.js' %}"></script>
+</body>
+</html>
