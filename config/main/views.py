@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Donation, VolunteerApplication
+from .models import Post, Donation, VolunteerApplication, PartnerApplication
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
@@ -37,7 +37,7 @@ def news_detail(request, slug):
         'next_post': next_post,
     })
 
-
+@csrf_exempt
 def submit_donation(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -76,5 +76,38 @@ def submit_volunteer(request):
         )
 
         return JsonResponse({'status': 'ok'})
+    
+    return JsonResponse({'error': 'Invalid method'}, status=405)
+
+@csrf_exempt
+def submit_parthner(request):
+    if request.method == "POST":
+        data = request.POST
+        
+        try:
+            # Создаем запись с всеми необходимыми полями
+            partner_app = PartnerApplication.objects.create(
+                first_name=data.get('firstName', '').strip(),
+                last_name=data.get('lastName', '').strip(),
+                email=data.get('email', '').strip(),
+                phone=data.get('phone', '').strip(),
+                rank=data.get('position', '').strip(),  # Добавлено поле position из формы
+                name_of_company=data.get('companyName', '').strip(),
+                field_of_activity=data.get('industry', '').strip(),
+                size_of_company=data.get('companySize', '').strip(),  # Добавлено
+                website_company=data.get('website', '').strip(),  # Добавлено
+                description_of_company=data.get('companyDescription', '').strip(),  # Добавлено
+                type_of_partnership=data.get('partnershipType', '').strip(),
+                budget=data.get('budget', '').strip(),  # Добавлено
+                conditions=data.get('timeline', '').strip(),  # Добавлено
+                additional_information=data.get('message', '').strip(),  # Добавлено
+            )
+            
+            print(f"Partner application created successfully: {partner_app.id}")
+            return JsonResponse({'status': 'ok'})
+            
+        except Exception as e:
+            print(f"Error creating partner application: {e}")
+            return JsonResponse({'error': str(e)}, status=500)
     
     return JsonResponse({'error': 'Invalid method'}, status=405)

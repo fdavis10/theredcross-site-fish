@@ -1,3 +1,19 @@
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
 // Partnership Form Multi-Step Functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Form elements
@@ -250,52 +266,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function submitForm() {
-        const submitBtn = document.querySelector('.btn-submit');
-        const originalText = submitBtn.innerHTML;
-        
-        // Show loading state
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Відправляємо...';
-        
-        const formData = collectFormData();
-        
-        // Simulate API call
-        setTimeout(() => {
-            console.log('Form Data:', formData);
-            
-            // Here you would typically send data to your server
-            // Example: 
-            // fetch('/api/partnership', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(formData)
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     console.log('Success:', data);
-            //     showSuccessModal();
-            // })
-            // .catch(error => {
-            //     console.error('Error:', error);
-            //     showErrorMessage();
-            // });
-            
-            // Reset form
+        const formData = new FormData(form);
+
+        fetch('/submit-partner/', {  // Исправлен URL
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();  // Парсим JSON ответ
+            } else {
+                return response.text().then(text => { throw new Error(text); });
+            }
+        })
+        .then(data => {
+            console.log('Success:', data);
+            if (successModal) {
+                successModal.show();
+            }
             form.reset();
             resetForm();
-            
-            // Show success modal
-            showSuccessModal();
-            
-            // Reset button state
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-            
-        }, 2000);
+        })
+        .catch(error => {
+            console.error('Ошибка при отправке формы партнера:', error);
+            alert("Сталася помилка при надсиланні. Спробуйте ще раз.");
+        });
     }
-    
+
+
     function showSuccessModal() {
         if (successModal) {
             successModal.show();

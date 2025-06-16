@@ -168,27 +168,28 @@
                             <p class="form-subtitle">Заповніть форму і наш менеджер зв'яжеться з вами найближчим часом</p>
                         </div>
                         
-                        <form id="partnershipForm" class="partnership-form">
+                        <form id="partnershipForm" class="partnership-form" method="post">
+                            {% csrf_token %}
                             <div class="form-step active" id="step1">
                                 <h4 class="step-title">Контактна інформація</h4>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="firstName" class="form-label">Ім'я *</label>
-                                        <input type="text" class="form-control" id="firstName" required>
+                                        <input type="text" class="form-control" id="firstName" name="firstName" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="lastName" class="form-label">Прізвище *</label>
-                                        <input type="text" class="form-control" id="lastName" required>
+                                        <input type="text" class="form-control" id="lastName" name="lastName" required>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="email" class="form-label">Email *</label>
-                                        <input type="email" class="form-control" id="email" required>
+                                        <input type="email" class="form-control" id="email" name="email" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="phone" class="form-label">Телефон *</label>
-                                        <input type="tel" class="form-control" id="phone" required>
+                                        <input type="tel" class="form-control" id="phone" name="phone" required>
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -204,12 +205,12 @@
                                 <h4 class="step-title">Інформація про компанію</h4>
                                 <div class="mb-3">
                                     <label for="companyName" class="form-label">Назва компанії *</label>
-                                    <input type="text" class="form-control" id="companyName" required>
+                                    <input type="text" class="form-control" id="companyName" name="companyName" required>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="industry" class="form-label">Сфера діяльності *</label>
-                                        <select class="form-select" id="industry" required>
+                                        <select class="form-select" id="industry" name="industry" required>
                                             <option value="">Оберіть сферу</option>
                                             <option value="retail">Роздрібна торгівля</option>
                                             <option value="manufacturing">Виробництво</option>
@@ -250,7 +251,7 @@
                                 <h4 class="step-title">Деталі партнерства</h4>
                                 <div class="mb-3">
                                     <label for="partnershipType" class="form-label">Тип партнерства *</label>
-                                    <select class="form-select" id="partnershipType" required>
+                                    <select class="form-select" id="partnershipType" name="partnershipType"required>
                                         <option value="">Оберіть тип</option>
                                         <option value="financial">Фінансова підтримка</option>
                                         <option value="volunteer">Волонтерські програми</option>

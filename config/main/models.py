@@ -68,3 +68,29 @@ class VolunteerApplication(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} - ({self.email})' 
+    
+
+class PartnerApplication(models.Model):  # Исправлено название
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone = models.CharField(max_length=30)
+    rank = models.CharField(max_length=50, null=True, blank=True)  # Добавлено blank=True
+    name_of_company = models.CharField(max_length=100)
+    field_of_activity = models.CharField(max_length=100)
+    size_of_company = models.CharField(max_length=200, null=True, blank=True)
+    website_company = models.CharField(max_length=200, null=True, blank=True)
+    description_of_company = models.TextField(max_length=500, null=True, blank=True)
+    type_of_partnership = models.CharField(max_length=100)  # Исправлено название поля
+    budget = models.CharField(max_length=150, null=True, blank=True)
+    conditions = models.CharField(max_length=100, null=True, blank=True)
+    additional_information = models.TextField(max_length=500, null=True, blank=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)  # Добавлено поле времени подачи
+
+    class Meta:
+        verbose_name = 'Заявка на партнерство'
+        verbose_name_plural = 'Заявки на партнерство'
+        ordering = ['-submitted_at']
+
+    def __str__(self):
+        return f'{self.name_of_company} - {self.first_name} {self.last_name}'

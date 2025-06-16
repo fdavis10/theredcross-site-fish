@@ -11,5 +11,6 @@ urlpatterns = [
     path('activity/', views.activity, name='activity'),
     path('submit-donation/', views.submit_donation, name='submit_donation'),
     path('submit-volunteer/', views.submit_volunteer, name='submit_volunteer'),
+    path('submit-partner/', views.submit_parthner, name='submit_partner'),  # Исправлено
 ]
 
