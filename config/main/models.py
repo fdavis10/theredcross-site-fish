@@ -57,7 +57,7 @@ class Donation(models.Model):
 class VolunteerApplication(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    birth_date = models.DateField()
+    birth_date = models.DateField(null=True)
     phone = models.CharField(max_length=30)
     email = models.EmailField()
     motivation = models.TextField()
