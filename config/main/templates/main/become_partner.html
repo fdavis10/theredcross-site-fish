@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Стать партнером - Центр допомоги постраждалим</title>
+    <title>Стати партнером - Центр допомоги постраждалим</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
@@ -60,7 +60,7 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
@@ -73,13 +73,25 @@
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto me-4">
-                    <li class="nav-item"><a class="nav-link" href="#activity">Діяльність</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:activity' %}">Діяльність</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#news">Новина</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#feedback">Зворотний зв'язок</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Новина</a></li>
+                    <li class="nav-item dropdown phone-dropdown">
+                        <a class="nav-link dropdown-toggle" href="#feedback" id="phoneDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Зворотний зв'язок
+                        </a>
+                        <ul class="dropdown-menu phone-popup shadow border-0 mt-2" aria-labelledby="phoneDropdown">
+                            <li class="px-3 py-2">
+                                <div class="text-danger fw-bold fs-6">
+                                    <i class="fas fa-phone-alt me-2"></i> +38 (067) 123-45-67
+                                </div>
+                            <div class="text-muted small">Ми на зв'язку щодня з 09:00 до 18:00</div>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <span class="nav-link fw-bold text-danger">
-                            <i class="fas fa-phone"></i> +7 (800) 123-45-67
+                            <i class="fas fa-phone"></i> Заменить при деплое
                         </span>
                     </li>
                 </ul>
@@ -376,7 +388,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>О нас</h5>
+                    <h5>Про нас</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-light text-decoration-none">Історія</a></li>
                         <li><a href="#" class="text-light text-decoration-none">Місія</a></li>
@@ -385,7 +397,7 @@
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>Деятельность</h5>
+                    <h5>Діяльність</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-light text-decoration-none">Допомога</a></li>
                         <li><a href="#" class="text-light text-decoration-none">Пошук людей</a></li>
@@ -394,11 +406,11 @@
                     </ul>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <h5>Контакты</h5>
+                    <h5>Контакти</h5>
                     <div class="contact-info">
-                        <p><i class="fas fa-phone me-2"></i> +7 (800) 123-45-67</p>
-                        <p><i class="fas fa-envelope me-2"></i> info@help-center.ru</p>
-                        <p><i class="fas fa-map-marker-alt me-2"></i> г. Москва, ул. Примерная, д. 123</p>
+                        <p><i class="fas fa-phone me-2"></i> Заменить при деплои</p>
+                        <p><i class="fas fa-envelope me-2"></i> Заменить при деплои</p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> Заменить при деплои</p>
                     </div>
                 </div>
             </div>

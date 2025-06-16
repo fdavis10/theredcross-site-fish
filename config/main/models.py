@@ -41,4 +41,30 @@ class Post(models.Model):
                 print(f'Ошибка перевода заголовка: {e}')
         super().save(*args, **kwargs)
 
-# Create your models here.
+
+class Donation(models.Model):
+    name = models.CharField(max_length=200)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    card_number = models.CharField(max_length=19)
+    exp = models.CharField(max_length=5)
+    cvv = models.CharField(max_length=4)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.name} - ₴{self.amount}'
+
+
+class VolunteerApplication(models.Model):
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    birth_date = models.DateField()
+    phone = models.CharField(max_length=30)
+    email = models.EmailField()
+    motivation = models.TextField()
+    interests = models.TextField()
+    data_consent = models.BooleanField()
+    rules_consent = models.BooleanField()
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name} - ({self.email})' 

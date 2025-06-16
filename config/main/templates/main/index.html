@@ -50,27 +50,28 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрити"></button>
       </div>
       <div class="modal-body p-4">
-        <form id="donation-form">
+        <form id="donation-form" method="post" action="{% url 'main:submit_donation' %}">
+            {% csrf_token %}
           <div class="mb-3">
             <label for="name" class="form-label">Ім'я</label>
-            <input type="text" class="form-control" id="name" required>
+            <input type="text" class="form-control" id="name" name="name" required>
           </div>
           <div class="mb-3">
             <label for="amount" class="form-label">Сума (₴)</label>
-            <input type="number" class="form-control" id="amount" min="1" required>
+            <input type="number" class="form-control" id="amount" min="1" name="amount" required>
           </div>
           <div class="mb-3">
             <label for="cardNumber" class="form-label">Номер картки</label>
-            <input type="text" class="form-control" id="cardNumber" maxlength="19" required>
+            <input type="text" class="form-control" id="cardNumber" maxlength="19" name="card_number" required>
           </div>
           <div class="row">
             <div class="col-6 mb-3">
               <label for="exp" class="form-label">Термін дії</label>
-              <input type="text" class="form-control" id="exp" maxlength="5" required>
+              <input type="text" class="form-control" id="exp" maxlength="5" name="exp" required>
             </div>
             <div class="col-6 mb-3">
               <label for="cvv" class="form-label">CVV</label>
-              <input type="password" class="form-control" id="cvv" maxlength="4" required>
+              <input type="password" class="form-control" id="cvv" maxlength="4" name="cvv" required>
             </div>
           </div>
           <button type="submit" class="btn btn-danger w-100 mt-3">Оплатити</button>
@@ -104,11 +105,23 @@
                 <ul class="navbar-nav ms-auto me-4">
                     <li class="nav-item"><a class="nav-link" href="{% url 'main:activity' %}">Діяльність</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#news">Новина</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#feedback">Зворотний зв'язок</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Новина</a></li>
+                    <li class="nav-item dropdown phone-dropdown">
+                        <a class="nav-link dropdown-toggle" href="#feedback" id="phoneDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Зворотний зв'язок
+                        </a>
+                        <ul class="dropdown-menu phone-popup shadow border-0 mt-2" aria-labelledby="phoneDropdown">
+                            <li class="px-3 py-2">
+                                <div class="text-danger fw-bold fs-6">
+                                    <i class="fas fa-phone-alt me-2"></i> +38 (067) 123-45-67
+                                </div>
+                            <div class="text-muted small">Ми на зв'язку щодня з 09:00 до 18:00</div>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <span class="nav-link fw-bold text-danger">
-                            <i class="fas fa-phone"></i> +7 (800) 123-45-67
+                            <i class="fas fa-phone"></i> Заменить при деплое
                         </span>
                     </li>
                 </ul>
@@ -310,7 +323,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>О нас</h5>
+                    <h5>Про нас</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-light text-decoration-none">Історія</a></li>
                         <li><a href="#" class="text-light text-decoration-none">Місія</a></li>
@@ -319,7 +332,7 @@
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>Деятельность</h5>
+                    <h5>Діяльність</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-light text-decoration-none">Допомога</a></li>
                         <li><a href="#" class="text-light text-decoration-none">Пошук людей</a></li>
@@ -328,11 +341,11 @@
                     </ul>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <h5>Контакты</h5>
+                    <h5>Контакти</h5>
                     <div class="contact-info">
-                        <p><i class="fas fa-phone me-2"></i> +7 (800) 123-45-67</p>
-                        <p><i class="fas fa-envelope me-2"></i> info@help-center.ru</p>
-                        <p><i class="fas fa-map-marker-alt me-2"></i> г. Москва, ул. Примерная, д. 123</p>
+                        <p><i class="fas fa-phone me-2"></i> Заменить при деплои</p>
+                        <p><i class="fas fa-envelope me-2"></i> Заменить при деплои</p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> Заменить при деплои</p>
                     </div>
                 </div>
             </div>

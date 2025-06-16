@@ -449,3 +449,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const donationForm = document.getElementById('donation-form');
+    if (!donationForm) return;
+
+    donationForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(donationForm);
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(donationForm.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+                donationForm.reset();
+                const modal = bootstrap.Modal.getInstance(document.getElementById('donationModal'));
+                if (modal) modal.hide();
+            } else {
+                alert('Помилка: ' + (data.error || 'невідома'));
+            }
+        })
+        .catch(err => {
+            console.error('Fetch error:', err);
+            alert('Сталась помилка при збереженні форми.');
+        });
+    });
+});

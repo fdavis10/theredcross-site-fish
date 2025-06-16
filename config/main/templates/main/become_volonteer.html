@@ -60,7 +60,7 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
@@ -75,11 +75,23 @@
                 <ul class="navbar-nav ms-auto me-4">
                     <li class="nav-item"><a class="nav-link" href="{% url 'main:activity' %}">Діяльність</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#news">Новина</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#feedback">Зворотний зв'язок</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Новина</a></li>
+                    <li class="nav-item dropdown phone-dropdown">
+                        <a class="nav-link dropdown-toggle" href="#feedback" id="phoneDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Зворотний зв'язок
+                        </a>
+                        <ul class="dropdown-menu phone-popup shadow border-0 mt-2" aria-labelledby="phoneDropdown">
+                            <li class="px-3 py-2">
+                                <div class="text-danger fw-bold fs-6">
+                                    <i class="fas fa-phone-alt me-2"></i> +38 (067) 123-45-67
+                                </div>
+                            <div class="text-muted small">Ми на зв'язку щодня з 09:00 до 18:00</div>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <span class="nav-link fw-bold text-danger">
-                            <i class="fas fa-phone"></i> +7 (800) 123-45-67
+                            <i class="fas fa-phone"></i> Заменить при деплое
                         </span>
                     </li>
                 </ul>
@@ -87,7 +99,7 @@
             </div>
         </div>
     </nav>
-
+    </nav>
     <!-- Hero Section -->
     <section class="hero-section volunteer-hero">
         <div class="hero-overlay">
@@ -235,17 +247,17 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName" class="form-label">Ім'я <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="firstName" required>
+                                    <input type="text" class="form-control" id="firstName" name="first_name" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="lastName" class="form-label">Прізвище <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="lastName" required>
+                                    <input type="text" class="form-control" id="lastName" name="last_name" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="birthDate" class="form-label">Дата народження <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="birthDate" required>
+                                    <input type="date" class="form-control" id="birthDate" name="birth_date" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="gender" class="form-label">Стать</label>
@@ -268,11 +280,11 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="phone" class="form-label">Телефон <span class="text-danger">*</span></label>
-                                    <input type="tel" class="form-control" id="phone" placeholder="+380 XX XXX XX XX" required>
+                                    <input type="tel" class="form-control" id="phone" placeholder="+380 XX XXX XX XX" name="phone" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" id="email" required>
+                                    <input type="email" class="form-control" id="email" name="email" required>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -378,7 +390,7 @@
                             </h6>
                             <div class="mb-3">
                                 <label for="motivation" class="form-label">Чому ви хочете стати волонтером? <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="motivation" rows="4" placeholder="Розкажіть про свою мотивацію..." required></textarea>
+                                <textarea class="form-control" id="motivation" rows="4" placeholder="Розкажіть про свою мотивацію..." name="motivation" required></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="skills" class="form-label">Які навички або знання ви можете запропонувати?</label>
@@ -389,13 +401,13 @@
                         <!-- Согласие -->
                         <div class="form-section mb-4">
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="dataConsent" required>
+                                <input class="form-check-input" type="checkbox" id="dataConsent" name="dataConsent" required>
                                 <label class="form-check-label" for="dataConsent">
                                     Я даю згоду на обробку моїх персональних даних <span class="text-danger">*</span>
                                 </label>
                             </div>
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="rulesConsent" required>
+                                <input class="form-check-input" type="checkbox" id="rulesConsent" name="rulesConsent" required>
                                 <label class="form-check-label" for="rulesConsent">
                                     Я ознайомлений з принципами Червоного Хреста та зобов'язуюсь їх дотримуватися <span class="text-danger">*</span>
                                 </label>
@@ -470,7 +482,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>О нас</h5>
+                    <h5>Про нас</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-light text-decoration-none">Історія</a></li>
                         <li><a href="#" class="text-light text-decoration-none">Місія</a></li>
@@ -479,7 +491,7 @@
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>Деятельность</h5>
+                    <h5>Діяльність</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-light text-decoration-none">Допомога</a></li>
                         <li><a href="#" class="text-light text-decoration-none">Пошук людей</a></li>
@@ -488,11 +500,11 @@
                     </ul>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <h5>Контакты</h5>
+                    <h5>Контакти</h5>
                     <div class="contact-info">
-                        <p><i class="fas fa-phone me-2"></i> +7 (800) 123-45-67</p>
-                        <p><i class="fas fa-envelope me-2"></i> info@help-center.ru</p>
-                        <p><i class="fas fa-map-marker-alt me-2"></i> г. Москва, ул. Примерная, д. 123</p>
+                        <p><i class="fas fa-phone me-2"></i> Заменить при деплои</p>
+                        <p><i class="fas fa-envelope me-2"></i> Заменить при деплои</p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> Заменить при деплои</p>
                     </div>
                 </div>
             </div>

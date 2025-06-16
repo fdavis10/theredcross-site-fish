@@ -177,26 +177,34 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     formData.append("interests", interests.join(","))
 
+    formData.append("birth_date", document.getElementById("birthDate").value)
+
     // Симуляция отправки на сервер
-    setTimeout(() => {
-      // Здесь должен быть реальный запрос на сервер
-      console.log("Данные формы:", Object.fromEntries(formData))
-
-      // Показываем сообщение об успехе
+  fetch("/submit-volunteer/", {
+    method: "POST",
+    body: formData,
+  })
+    .then(response => {
+      if (!response.ok) throw new Error("Не вдалося надіслати форму")
+      return response.json()
+    })
+    .then(data => {
       showSuccessMessage()
-
-      // Восстанавливаем кнопку
       submitBtn.innerHTML = originalText
       submitBtn.disabled = false
 
-      // Закрываем модальное окно через 3 секунды
       setTimeout(() => {
         const modal = window.bootstrap.Modal.getInstance(volunteerModal)
         modal.hide()
         volunteerForm.reset()
         clearAllErrors()
       }, 3000)
-    }, 2000)
+    })
+    .catch(err => {
+      alert("Помилка під час відправки форми: " + err.message)
+      submitBtn.innerHTML = originalText
+      submitBtn.disabled = false
+    })
   }
 
   function showSuccessMessage() {
