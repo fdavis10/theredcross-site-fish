@@ -1,0 +1,260 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новини - Центр допомоги постраждалим</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/news_list.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
+                <span class="fw-bold text-danger">Центр допомоги</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-4">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:activity' %}">Діяльність</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'main:news_list'%}">Новина</a></li>
+                    <li class="nav-item dropdown phone-dropdown">
+                        <a class="nav-link dropdown-toggle" href="#feedback" id="phoneDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Зворотний зв'язок
+                        </a>
+                        <ul class="dropdown-menu phone-popup shadow border-0 mt-2" aria-labelledby="phoneDropdown">
+                            <li class="px-3 py-2">
+                                <div class="text-danger fw-bold fs-6">
+                                    <i class="fas fa-phone-alt me-2"></i> +38 (067) 123-45-67
+                                </div>
+                            <div class="text-muted small">Ми на зв'язку щодня з 09:00 до 18:00</div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link fw-bold text-danger">
+                            <i class="fas fa-phone"></i> Заменить при деплое
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="header-overlay">
+            <div class="container">
+                <div class="header-content text-center text-white">
+                    <h1 class="display-4 fw-bold mb-3">Новини</h1>
+                    <p class="lead mb-4">Останні події та актуальна інформація про нашу роботу</p>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="/">Головна</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Новини</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Filter Section -->
+    <section class="news-filter-section py-4 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Пошук новин...">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="filter-buttons text-md-end">
+                        <button class="filter-btn active" data-filter="all">Всі новини</button>
+                        <button class="filter-btn" data-filter="recent">Останні</button>
+                        <button class="filter-btn" data-filter="popular">Популярні</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Grid Section -->
+    <section class="news-grid-section py-5">
+        <div class="container">
+            <div class="row" id="newsGrid">
+                {% for post in posts %}
+                <div class="col-lg-4 col-md-6 mb-4 news-item" data-date="{{ post.created_at|date:'Y-m-d' }}">
+                    <article class="news-card-enhanced">
+                        {% if post.image %}
+                        <div class="news-card-image">
+                            <img src="{{ post.image.url }}" alt="{{ post.title_uk }}">
+                            <div class="image-overlay">
+                                <a href="{% url 'main:news_detail' slug=post.slug %}" class="read-more-overlay">
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="news-card-body">
+                            <div class="news-card-meta">
+                                <span class="news-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{ post.created_at|date:"d E Y" }}
+                                </span>
+                            </div>
+                            <h3 class="news-card-title">
+                                <a href="{% url 'main:news_detail' slug=post.slug %}">{{ post.title_uk }}</a>
+                            </h3>
+                            <p class="news-card-excerpt">{{ post.content_uk|truncatewords:25 }}</p>
+                            <a href="{% url 'main:news_detail' slug=post.slug %}" class="btn-read-more">
+                                Читати далі
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="no-news text-center py-5">
+                        <i class="fas fa-newspaper fa-4x text-muted mb-3"></i>
+                        <h3 class="text-muted">Новин поки немає</h3>
+                        <p class="text-muted">Перевіряйте пізніше для отримання останніх оновлень</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if posts.has_other_pages %}
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    {% if posts.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link"><i class="fas fa-chevron-left"></i></span>
+                    </li>
+                    {% endif %}
+
+                    {% for num in posts.paginator.page_range %}
+                        {% if posts.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if posts.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link"><i class="fas fa-chevron-right"></i></span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section py-5">
+        <div class="container">
+            <div class="cta-content text-center">
+                <h2 class="text-white fw-bold mb-3">Хочете отримувати останні новини?</h2>
+                <p class="text-white mb-4">Підпишіться на наші оновлення та будьте в курсі всіх подій</p>
+                <div class="newsletter-form">
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Введіть ваш email">
+                        <button class="btn btn-light" type="button">
+                            <i class="fas fa-paper-plane me-2"></i>Підписатися
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-brand mb-3">
+                        <img src="{% static 'main\images\logo_red_cross.png' %}" alt="Логотип" width="100" height="100" class="me-2">
+                    </div>
+                    <p>Національний комітет Товариства Червоного Хреста України</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Про нас</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Історія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Місія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Команда</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Звіт</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Діяльність</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Допомога</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Пошук людей</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Волонтерство</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Програма</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Контакти</h5>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone me-2"></i> Заменить при деплои</p>
+                        <p><i class="fas fa-envelope me-2"></i> national@redcross.org.ua</p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> 01024, Київ, вул. Євгена Чикаленка, 30</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2016 - 2025 Центр Допомоги. Всі права захищені.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-light text-decoration-none me-3">Політика конфіденційності</a>
+                    <a href="#" class="text-light text-decoration-none">Угода користувача</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'main/js/main.js' %}"></script>
+    <script src="{% static 'main/js/news_list.js' %}"></script>
+</body>
+</html>

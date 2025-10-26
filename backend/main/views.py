@@ -45,6 +45,10 @@ def news_detail(request, slug):
         'next_post': next_post,
     })
 
+def news_list(request):
+    posts = Post.objects.filter(is_published=True).order_by('-created_at')
+    return render(request, 'main/news_list.html', {'posts': posts})
+
 # @csrf_exempt
 # def submit_donation(request):
 #     if request.method == 'POST':

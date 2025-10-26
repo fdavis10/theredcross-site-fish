@@ -75,7 +75,7 @@
                 <ul class="navbar-nav ms-auto me-4">
                     <li class="nav-item"><a class="nav-link" href="{% url 'main:activity' %}">Діяльність</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/">Новина</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:news_list'%}">Новина</a></li>
                     <li class="nav-item dropdown phone-dropdown">
                         <a class="nav-link dropdown-toggle" href="#feedback" id="phoneDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Зворотний зв'язок
