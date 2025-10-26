@@ -1,0 +1,303 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Підтримати Україну - Центр Допомоги</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/donate.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white    fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'main/images/logo_red_cross.png' %}" alt="Логотип" width="40" height="40" class="me-2">
+                <span class="fw-bold text-danger">Центр Допомоги</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-4">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:activity' %}">Діяльність</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:become_volonteer' %}">Приєднуватися</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Новина</a></li>
+                    <li class="nav-item dropdown phone-dropdown">
+                        <a class="nav-link dropdown-toggle" href="#feedback" id="phoneDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Зворотний зв'язок
+                        </a>
+                        <ul class="dropdown-menu phone-popup shadow border-0 mt-2" aria-labelledby="phoneDropdown">
+                            <li class="px-3 py-2">
+                                <div class="text-danger fw-bold fs-6">
+                                    <i class="fas fa-phone-alt me-2"></i> +38 (067) 123-45-67
+                                </div>
+                                <div class="text-muted small">Ми на зв'язку щодня з 09:00 до 18:00</div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link fw-bold text-danger">
+                            <i class="fas fa-phone"></i> Заменить при деплое
+                        </span>
+                    </li>
+                </ul>
+                <button class="btn btn-danger btn-help fw-bold px-4">ДОПОМОГТИ</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="donate-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Допоможіть врятувати життя</h1>
+                    <p class="hero-subtitle">Ваша підтримка допомагає нам надавати критично важливу допомогу тим, хто цього найбільше потребує</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">50,000+</div>
+                            <div class="stat-label">Людей отримали допомогу</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1,200+</div>
+                            <div class="stat-label">Волонтерів</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Гаряча лінія</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation Form Section -->
+    <section class="donation-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="donation-card">
+                        <div class="donation-header">
+                            <h2>Зробити внесок</h2>
+                            <p>Оберіть суму або вкажіть свою</p>
+                        </div>
+
+                       <form id="donationForm" method="post" action="{% url 'main:submit_donation' %}" data-submit-url="{% url 'main:submit_donation' %}">
+                            {% csrf_token %}
+                            
+                            <!-- Preset Amounts -->
+                            <div class="amount-selection mb-4">
+                                <label class="form-label fw-bold mb-3">Оберіть суму:</label>
+                                <div class="amount-buttons">
+                                    <button type="button" class="amount-btn" data-amount="100">100 ₴</button>
+                                    <button type="button" class="amount-btn" data-amount="300">300 ₴</button>
+                                    <button type="button" class="amount-btn" data-amount="500">500 ₴</button>
+                                    <button type="button" class="amount-btn" data-amount="1000">1,000 ₴</button>
+                                    <button type="button" class="amount-btn" data-amount="3000">3,000 ₴</button>
+                                    <button type="button" class="amount-btn" data-amount="5000">5,000 ₴</button>
+                                </div>
+                            </div>
+
+                            <!-- Custom Amount -->
+                            <div class="mb-4">
+                                <label for="customAmount" class="form-label fw-bold">Або вкажіть свою суму:</label>
+                                <div class="input-group input-group-lg">
+                                    <input type="number" class="form-control custom-amount-input" id="customAmount" name="amount" placeholder="Введіть суму" min="1" required>
+                                    <span class="input-group-text">₴</span>
+                                </div>
+                            </div>
+
+                            <!-- Personal Information -->
+                            <div class="personal-info-section mb-4">
+                                <h5 class="section-subtitle mb-3">Ваші дані</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">Ім'я</label>
+                                        <input type="text" class="form-control" id="firstName" name="first_name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">Прізвище</label>
+                                        <input type="text" class="form-control" id="lastName" name="last_name" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label">Телефон (опціонально)</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Information -->
+                            <div class="payment-info-section mb-4">
+                                <h5 class="section-subtitle mb-3">Платіжна інформація</h5>
+                                <div class="mb-3">
+                                    <label for="cardNumber" class="form-label">Номер картки</label>
+                                    <div class="card-input-wrapper">
+                                        <input type="text" class="form-control" id="cardNumber" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                                        <div class="card-icons">
+                                            <i class="fab fa-cc-visa"></i>
+                                            <i class="fab fa-cc-mastercard"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="expiry" class="form-label">Термін дії</label>
+                                        <input type="text" class="form-control" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cvv" class="form-label">CVV</label>
+                                        <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123" maxlength="4" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recurring Donation -->
+                            <div class="recurring-section mb-4">
+                                <div class="form-check custom-checkbox">
+                                    <input class="form-check-input" type="checkbox" id="recurringDonation" name="recurring">
+                                    <label class="form-check-label" for="recurringDonation">
+                                        <strong>Зробити це регулярним платежем</strong>
+                                        <small class="d-block text-muted">Щомісячна підтримка допомагає нам планувати довгострокову допомогу</small>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-donate btn-lg w-100">
+                                <i class="fas fa-heart me-2"></i>
+                                Підтримати зараз
+                            </button>
+
+                            <!-- Payment Methods -->
+                            <div class="payment-methods mt-4">
+                                <p class="text-center text-muted mb-3">Ми приймаємо:</p>
+                                <div class="payment-logos">
+                                    <img src="{% static 'main/images/visa.svg' %}" alt="Visa">
+                                    <img src="{% static 'main/images/mastercard.svg' %}" alt="Mastercard">
+                                    <img src="{% static 'main/images/apple-pay.svg' %}" alt="Apple Pay">
+                                    <img src="{% static 'main/images/google-pay.svg' %}" alt="Google Pay">
+                                </div>
+                            </div>
+
+                            <!-- Security Notice -->
+                            <div class="security-notice mt-4">
+                                <i class="fas fa-lock me-2"></i>
+                                <small>Ваша платіжна інформація захищена та обробляється безпечно</small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section class="impact-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5 section-title">Як ваша допомога змінює життя</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-medkit"></i>
+                        </div>
+                        <h5>Медична допомога</h5>
+                        <p>100 ₴ забезпечує базовий медичний набір для сім'ї</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h5>Тимчасове житло</h5>
+                        <p>500 ₴ надає тимчасовий притулок на один день</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h5>Продукти харчування</h5>
+                        <p>300 ₴ забезпечує продуктовий набір для родини</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-brand mb-3">
+                        <img src="{% static 'main/images/logo_red_cross.png' %}" alt="Логотип" width="100" height="100" class="me-2">
+                    </div>
+                    <p>Національний комітет Товариства Червоного Хреста України</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Про нас</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Історія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Місія</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Команда</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Звіт</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Діяльність</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Допомога</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Пошук людей</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Волонтерство</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Програма</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Контакти</h5>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone me-2"></i> Заменить при деплои</p>
+                        <p><i class="fas fa-envelope me-2"></i> national@redcross.org.ua</p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> 01024, Київ, вул. Євгена Чикаленка, 30</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2016 - 2025 Центр Допомоги. Всі права захищені.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-light text-decoration-none me-3">Політика конфіденційності</a>
+                    <a href="#" class="text-light text-decoration-none">Угода користувача</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'main/js/donate.js' %}"></script>
+</body>
+</html>
