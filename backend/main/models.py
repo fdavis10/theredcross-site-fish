@@ -66,17 +66,22 @@ class Donation(models.Model):
 class VolunteerApplication(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    birth_date = models.DateField(null=True)
+    birth_date = models.DateField(null=True, blank=True)  # добавьте blank=True
     phone = models.CharField(max_length=30)
     email = models.EmailField()
     motivation = models.TextField()
-    interests = models.TextField()
-    data_consent = models.BooleanField()
-    rules_consent = models.BooleanField()
+    interests = models.TextField(blank=True)  # может быть пустым
+    data_consent = models.BooleanField(default=False)
+    rules_consent = models.BooleanField(default=False)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Заявка волонтера'
+        verbose_name_plural = 'Заявки волонтерів'
+        ordering = ['-submitted_at']
+
     def __str__(self):
-        return f'{self.first_name} {self.last_name} - ({self.email})' 
+        return f'{self.first_name} {self.last_name} - {self.email}'
     
 
 class PartnerApplication(models.Model):  

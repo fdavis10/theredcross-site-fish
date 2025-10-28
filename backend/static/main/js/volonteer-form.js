@@ -161,50 +161,61 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function submitForm() {
-    // Показываем спиннер загрузки
     const submitBtn = volunteerForm.querySelector('button[type="submit"]')
     const originalText = submitBtn.innerHTML
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Відправляємо...'
     submitBtn.disabled = true
 
     // Собираем данные формы
-    const formData = new FormData(volunteerForm)
-
-    // Добавляем выбранные интересы
-    const interests = []
+    const formData = new FormData()
+    
+    // Основные поля
+    formData.append("firstName", document.getElementById("firstName").value)
+    formData.append("lastName", document.getElementById("lastName").value)
+    formData.append("birthDate", document.getElementById("birthDate").value)
+    formData.append("phone", document.getElementById("phone").value)
+    formData.append("email", document.getElementById("email").value)
+    formData.append("motivation", document.getElementById("motivation").value)
+    
+    // Интересы (все выбранные чекбоксы)
     document.querySelectorAll('input[name="interests"]:checked').forEach((checkbox) => {
-      interests.push(checkbox.value)
+      formData.append("interests", checkbox.value)
     })
-    formData.append("interests", interests.join(","))
+    
+    // Согласия
+    formData.append("dataConsent", document.getElementById("dataConsent").checked ? "on" : "off")
+    formData.append("rulesConsent", document.getElementById("rulesConsent").checked ? "on" : "off")
 
-    formData.append("birth_date", document.getElementById("birthDate").value)
-
-    // Симуляция отправки на сервер
-  fetch("/submit-volunteer/", {
-    method: "POST",
-    body: formData,
-  })
-    .then(response => {
-      if (!response.ok) throw new Error("Не вдалося надіслати форму")
-      return response.json()
+    // Отправка на сервер
+    fetch("/submit-volunteer/", {
+      method: "POST",
+      body: formData,
     })
-    .then(data => {
-      showSuccessMessage()
-      submitBtn.innerHTML = originalText
-      submitBtn.disabled = false
-
-      setTimeout(() => {
-        const modal = window.bootstrap.Modal.getInstance(volunteerModal)
-        modal.hide()
-        volunteerForm.reset()
-        clearAllErrors()
-      }, 3000)
-    })
-    .catch(err => {
-      alert("Помилка під час відправки форми: " + err.message)
-      submitBtn.innerHTML = originalText
-      submitBtn.disabled = false
-    })
+      .then(response => {
+        if (!response.ok) throw new Error("Не вдалося надіслати форму")
+        return response.json()
+      })
+      .then(data => {
+        if (data.status === 'success') {
+          showSuccessMessage()
+          
+          setTimeout(() => {
+            const modal = window.bootstrap.Modal.getInstance(volunteerModal)
+            modal.hide()
+            volunteerForm.reset()
+            clearAllErrors()
+          }, 3000)
+        } else {
+          throw new Error(data.message || 'Невідома помилка')
+        }
+      })
+      .catch(err => {
+        alert("Помилка під час відправки форми: " + err.message)
+      })
+      .finally(() => {
+        submitBtn.innerHTML = originalText
+        submitBtn.disabled = false
+      })
   }
 
   function showSuccessMessage() {
